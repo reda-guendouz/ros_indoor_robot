@@ -132,7 +132,7 @@ void output1(int val, byte mot)
   }
 }*/
 
-/*
+
 void init_sabertooth()
 {
   byte address = 128;
@@ -146,4 +146,4 @@ void init_sabertooth()
   Serial3.write(10);   // 10x100ms=1S
   Serial3.write((address + 14 + 10) &  0b01111111);
   delay(10);
-}*/
+}

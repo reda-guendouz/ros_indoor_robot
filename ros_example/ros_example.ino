@@ -13,6 +13,8 @@ ros::NodeHandle  nh;
 int sortie0;
 int sortie1;
 
+
+
 void messageCb1( const std_msgs::Empty& toggle_msg){
   digitalWrite(13, HIGH-digitalRead(13));   // blink the led
 }
@@ -22,8 +24,11 @@ void messageCb2( const geometry_msgs::Vector3& cmd_msg){
    sortie1=(int) cmd_msg.y;
 
   output1(sortie0, 0);
-  output1(sortie1, 1); 
+  output1(sortie1, 1);
+
+   
 }
+
 
 ros::Subscriber<std_msgs::Empty> sub1("toggle_led", &messageCb1 );
 ros::Subscriber<geometry_msgs::Vector3> sub2("cmd_mot", &messageCb2 );
@@ -37,15 +42,17 @@ void setup()
 
   Serial3.begin(9600);
 
-  sortie1 = 50;
-  sortie0 = 50;
+  sortie1 = 30;
+  sortie0 = 0;
   delay(10);
   /* droit */
   output1(sortie0, 0);
   delay(10);
   output1(sortie1, 1);
 
-  // init_sabertooth();
+    // init_sabertooth();
+
+
 
 }
 
@@ -55,6 +62,12 @@ void loop()
   delay(1);
 }
 
+
+
+
+
+
+
 void commande1(int val, byte mode)
 {
   //fonction d'envoi des commande au pont en H
@@ -63,8 +76,18 @@ void commande1(int val, byte mode)
   Serial3.write(address);
   Serial3.write(mode);
   Serial3.write(val);
-  Serial3.write((address + mode + val) &  0b01111111);  
+  Serial3.write((address + mode + val) &  0b01111111);
+
+  /*
+    mySerial3.write(address);
+    mySerial3.write(mode);
+    mySerial3.write(val);
+    mySerial3.write((address + mode + val) &  0b01111111);
+  */
 }
+
+
+
 
 void output1(int val, byte mot)
 {
@@ -102,7 +125,7 @@ void output1(int val, byte mot)
 
 }
 
-/*
+
 void init_sabertooth()
 {
   byte address = 128;
@@ -122,4 +145,4 @@ void init_sabertooth()
   Serial3.write(10);   // 10x100ms=1S
   Serial3.write((address + 14 + 10) &  0b01111111);
   delay(10);
-}*/
+}
